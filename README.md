@@ -29,3 +29,4 @@ To show the results, simply do
 python parse_test_res.py output/ssdg_officehome/nlab_1950/DGWM/resnet18 --multi-exp
 ```
 
+Check out our previous work on SSDG at [Towards Generalizing to Unseen Domains with Few Labels](https://arxiv.org/abs/2403.11674) (CVPR 2024).
