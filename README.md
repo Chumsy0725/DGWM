@@ -14,14 +14,14 @@ This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dass
 The script is provided in `/scripts/DGWM/run_ssdg.sh`. You need to update the `DATA` variable that points to the directory where you put the datasets. There are two input arguments: `DATASET` and `NLAB` (total number of labels).
 
 
-Here we give an example. Say you want to run FBC-SA on OfficHome under the 10-labels-per-class setting (i.e. 1950 labels in total), simply run the following commands in your terminal,
+Here we give an example. Say you want to run DGWM on OfficHome under the 10-labels-per-class setting (i.e. 1950 labels in total), run the following commands in your terminal,
 ```bash
 conda activate dassl
 cd scripts/DGWM
 bash run_ssdg.sh ssdg_officehome 1950 
 ```
 
-In this case, the code will run FBC-SA in four different setups (four target domains), each for five times (five random seeds). You can modify the code to run a single experiment instead of all at once if you have multiple GPUs.
+In this case, the code will run DGWM in four different setups (four target domains), each for five times (five random seeds). You can modify the code to run a single experiment instead of all at once if you have multiple GPUs.
 
 
 To show the results, simply do
