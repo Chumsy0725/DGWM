@@ -3,7 +3,6 @@ import time
 import datetime
 import math
 
-
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
@@ -26,7 +25,6 @@ def freeze_models_params(models):
             for param in model.parameters():
                 param.requires_grad_(True)
 
-
 class DGWMClassifier(nn.Module):
     def __init__(self, num_features, num_classes, LR=False, noise=False):
         super().__init__()
@@ -46,7 +44,6 @@ class DGWMClassifier(nn.Module):
         stdv = 1./math.sqrt(self.w.size(1))
         self.w.data.uniform_(-stdv, stdv)
 
-
     def forward(self, x, LR=False, noise=False):
         if LR:
             x_mean = x.mean(0).unsqueeze(0)
@@ -57,8 +54,7 @@ class DGWMClassifier(nn.Module):
 
             if noise:
                 noise = torch.randn(1, int(x.shape[1]/8)).to(x.device) 
-                x_mean = torch.cat((x_mean, noise), dim=1) # 128
-            
+                x_mean = torch.cat((x_mean, noise), dim=1) # 128      
             else:
                 x_mean = torch.cat((x_mean, torch.zeros(1, int(x.shape[1]/8)).to(x.device)), dim=1) # 128
 
@@ -66,14 +62,12 @@ class DGWMClassifier(nn.Module):
             x_mean = torch.relu(self.p5(x_mean)) # 512
 
             x1 = self.h1(x_mean)
-
             x2 = self.h2(x_mean)
 
             w_mask = torch.sigmoid(torch.matmul(x2.t(), x1))
-
             self.w_new = self.w * w_mask
-            return torch.matmul(x, self.w_new.t()) 
-                                    
+            
+            return torch.matmul(x, self.w_new.t())                        
         else:
             return torch.matmul(x, self.w.t()) 
  
@@ -84,7 +78,6 @@ class DGWM(TrainerXU):
     Domain-Guided Weight Modulation for Semi-Supervised Domain Generalization
 
     """
-
     def __init__(self, cfg):
         super().__init__(cfg)
         # Confidence threshold
@@ -98,7 +91,6 @@ class DGWM(TrainerXU):
             norm_std = cfg.INPUT.PIXEL_STD
 
         self.apply_aug = cfg.TRAINER.DGWM.APPLY_AUG
-
 
     def check_cfg(self, cfg):
         assert len(cfg.TRAINER.DGWM.STRONG_TRANSFORMS) > 0
@@ -197,7 +189,8 @@ class DGWM(TrainerXU):
             y_u_pred = torch.cat(y_u_pred, 0)
             mask_u = torch.cat(mask_u, 0)
             y_u_pred_stats = self.assess_y_pred_quality(y_u_pred, y_u_true, mask_u)
-
+        
+        ####################
         # Supervised loss
         ####################
         loss_x = 0
@@ -236,7 +229,6 @@ class DGWM(TrainerXU):
         if self.apply_aug:
             loss_all += loss_u_aug
             loss_summary["loss_u_aug"] = loss_u_aug.item()
-
 
         self.model_backward_and_update(loss_all)
 
@@ -294,30 +286,23 @@ class DGWM(TrainerXU):
             "u_aug": u_aug,
             "y_u_true": y_u_true,  # kept intact
         }
-
         return batch
 
     def model_inference(self, input):
         features = self.G(input)
-
         prediction = self.C(features, LR=False, noise=False)
-
         return prediction
 
     def after_train(self):
         print("Finish training")
-
         # Do testing
         if not self.cfg.TEST.NO_TEST:
             self.test()
-
         # Save model
         self.save_model(self.epoch, self.output_dir)
-
         # Show elapsed time
         elapsed = round(time.time() - self.time_start)
         elapsed = str(datetime.timedelta(seconds=elapsed))
         print("Elapsed: {}".format(elapsed))
-
         # Close writer
         self.close_writer()
