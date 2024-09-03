@@ -11,13 +11,13 @@ This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dass
 
 ## How to run
 
-The script is provided in `ssdg-benchmark/scripts/DGWM/run_ssdg.sh`. You need to update the `DATA` variable that points to the directory where you put the datasets. There are two input arguments: `DATASET` and `NLAB` (total number of labels).
+The script is provided in `/scripts/DGWM/run_ssdg.sh`. You need to update the `DATA` variable that points to the directory where you put the datasets. There are two input arguments: `DATASET` and `NLAB` (total number of labels).
 
 
 Here we give an example. Say you want to run FBC-SA on OfficHome under the 10-labels-per-class setting (i.e. 1950 labels in total), simply run the following commands in your terminal,
 ```bash
 conda activate dassl
-cd ssdg-benchmark/scripts/DGWM
+cd scripts/DGWM
 bash run_ssdg.sh ssdg_officehome 1950 
 ```
 
