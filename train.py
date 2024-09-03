@@ -5,16 +5,11 @@ from dassl.utils import setup_logger, set_random_seed, collect_env_info
 from dassl.config import get_cfg_default
 from dassl.engine import build_trainer
 
-# new imports
 from yacs.config import CfgNode as CN
 import copy
 
-# datasets
 import datasets.ssdg_pacs
 import datasets.ssdg_officehome
-
-
-# trainers
 
 import trainers.DGWM
 
@@ -30,7 +25,6 @@ def print_args(args, cfg):
     print("** Config **")
     print("************")
     print(cfg)
-
 
 def reset_cfg(cfg, args):
     if args.root:
@@ -63,7 +57,6 @@ def reset_cfg(cfg, args):
     if args.head:
         cfg.MODEL.HEAD.NAME = args.head
 
-
 def extend_cfg(cfg):
     cfg.TRAINER.DGWM = CN()
     cfg.TRAINER.DGWM.CONF_THRE = 0.95  # confidence threshold
@@ -71,30 +64,21 @@ def extend_cfg(cfg):
     cfg.TRAINER.DGWM.C_OPTIM = copy.deepcopy(cfg.OPTIM)  # classifier's optim setting
     cfg.TRAINER.DGWM.APPLY_AUG = True  # compute loss_u_aug
 
-
-
 def setup_cfg(args):
     cfg = get_cfg_default()
     extend_cfg(cfg)
-
     # 1. From the dataset config file
     if args.dataset_config_file:
         cfg.merge_from_file(args.dataset_config_file)
-
     # 2. From the method config file
     if args.config_file:
         cfg.merge_from_file(args.config_file)
-
     # 3. From input arguments
     reset_cfg(cfg, args)
-
     # 4. From optional input arguments
     cfg.merge_from_list(args.opts)
-
     cfg.freeze()
-
     return cfg
-
 
 def main(args):
     cfg = setup_cfg(args)
