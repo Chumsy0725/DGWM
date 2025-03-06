@@ -29,4 +29,16 @@ To show the results, simply do
 python parse_test_res.py output/ssdg_officehome/nlab_1950/DGWM/resnet18 --multi-exp
 ```
 
+### Citation
+```shell
+@InProceedings{Galappaththige_2025_WACV,
+    author    = {Galappaththige, Chamuditha Jayanga and Izzo, Zachary and He, Xilin and Zhou, Honglu and Khan, Muhammad Haris},
+    title     = {Domain-Guided Weight Modulation for Semi-Supervised Domain Generalization},
+    booktitle = {Proceedings of the Winter Conference on Applications of Computer Vision (WACV)},
+    month     = {February},
+    year      = {2025},
+    pages     = {6495-6505}
+}
+```
+
 Check out our previous work on SSDG at [Towards Generalizing to Unseen Domains with Few Labels](https://arxiv.org/abs/2403.11674) (CVPR 2024).
